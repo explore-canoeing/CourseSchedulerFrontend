@@ -1,13 +1,28 @@
-<!-- <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base target="_top">
-    <!-- Google Fonts: Bitter -->
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <link rel="icon" type="image/png" href="favicon.png">
     <title>Course Registration</title>
     <style>
       :root { --brand-color: #546e7a; --bg-color: #f4f7f6; }
+
+      * { box-sizing: border-box; } /* Force every element to respect width limits */
+
+      body {
+        width: 100%;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+      }
+
+      html {
+        width: 100%;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+        /* Prevent font scaling on orientation change */
+        -webkit-text-size-adjust: 100%;
+        -moz-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
       
       body { 
         background-color: var(--bg-color); 
@@ -23,7 +38,9 @@
 
       .form-card { 
         background: white; 
-        max-width: 650px; width: 100%; 
+        max-width: 600px;
+        width: 100%; 
+        display: flex;
         border-radius: 12px; 
         box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         border-top: 12px solid var(--brand-color);
@@ -49,15 +66,21 @@
         font-size: 0.95rem;
       }
 
-      input[type="text"], input[type="email"], input[type="tel"], input[type="date"], select {
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="date"],
+      select {
         width: 100%;
+        max-width: 100%;
         padding: 12px;
         border: 1.5px solid #cfd8dc;
         border-radius: 6px;
         font-family: 'Bitter', serif;
-        font-size: 1rem;
+        font-size: 16px !important;
         box-sizing: border-box;
         transition: border-color 0.2s;
+        -webkit-appearance: none;
       }
 
       input:focus {
@@ -137,16 +160,18 @@
       }
 
       textarea {
+        box-sizing: border-box;
+        resize: vertical; /* Allows user to expand height if needed */
         width: 100%;
+        max-width: 100%;
         padding: 12px;
         border: 1.5px solid #cfd8dc;
         border-radius: 6px;
         font-family: 'Bitter', serif;
-        font-size: 1rem;
+        font-size: 16px;
         box-sizing: border-box;
-        resize: vertical; /* Allows user to expand height if needed */
-        min-height: 80px;
         transition: border-color 0.2s;
+        min-height: 80px;
       }
 
       textarea:focus {
@@ -175,6 +200,25 @@
         border-left-color: #546e7a; /* Matches your brand blue */
         margin: 0 auto 15px auto;
         animation: spin 1s linear infinite;
+        display: block;       /* Force block */
+        margin: 0 auto 15px auto; /* auto left/right centers it */
+      }
+
+      #error-message,
+      #success-message,
+      #payment-cta,
+      #payment-timeout-message,
+      #payment-failed-message,
+      #initial-spinner,
+      #register-spinner,
+      #finalizing-spinner {
+        width: 100%;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        box-sizing: border-box;
       }
 
       /* The "Pulse" for the text */
@@ -182,6 +226,19 @@
         animation: pulse 1.5s ease-in-out infinite;
         color: #546e7a;
         font-weight: bold;
+      }
+
+      /* Target the first <td> in every <tr> of your info table */
+      table td:first-child {
+        white-space: nowrap;  /* The "Hammer": prevents wrapping completely */
+        width: 1%;            /* The "Shrink-Wrap": fits the cell to the text only */
+        padding-right: 30px;  /* The "Gutter": ensures a clean gap from the value */
+      }
+
+        /* Ensure the second <td> (the values) takes all remaining space */
+      table td:last-child {
+        width: auto;
+        text-align: right;
       }
 
       @keyframes spin {
@@ -193,6 +250,76 @@
         0%, 100% { opacity: 1; }
         50% { opacity: 0.5; }
       }
+
+      @media (max-width: 600px) {
+        body {
+            padding: 20px 15px; /* Gives space above and below the card */
+        }
+
+        .form-card {
+            padding: 20px 15px; /* Comfortable inner spacing */
+            display: block; 
+            border-radius: 12px; /* Keep corners rounded */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Soft shadow */
+            width: 100%; /* Card stays wide but doesn't hit edges because of body padding */
+        }
+
+        /* Improve table layout so it doesn't squish */
+        table tr {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        
+        table td {
+            text-align: left !important;
+            width: 100% !important;
+            padding: 2px 0 !important;
+        }
+
+        .radio-group {
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .row {
+            display: block; /* Switch from flex to block to force vertical stacking */
+        }
+
+        .col {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 0 !important;
+            margin-bottom: 15px; /* Adds breathing room between City and Province */
+            flex: none !important; /* Disables the 'flex: 2' logic on mobile */
+        }
+
+        /* Force the Cost row cells to stack vertically like the others */
+        #course-has-cost td {
+            display: block !important;
+            width: 100% !important;
+            text-align: left !important;
+            padding: 2px 0 !important;
+        }
+        
+        /* Add a little gap below the label 'Cost:' */
+        #course-has-cost td:first-child {
+            margin-bottom: 0;
+        }
+
+        /* Add spacing below the price so it doesn't touch the next section */
+        #course-cost {
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        /* Remove the inline style 'flex: 2' influence on mobile */
+        [style*="flex: 2"] {
+            flex: none !important;
+            width: 100% !important;
+        }
+      }
+
     </style>
   </head>
   <body>
@@ -213,7 +340,7 @@
         <!-- Course info: 16px for readability on phone, crisp on Mac -->
         <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin: 20px 0; border-top: 1px solid #eeeeee; border-bottom: 1px solid #eeeeee; padding: 12px 0;">
           <tr>
-            <td style="font-weight: bold; color: #546e7a; padding: 6px 0; vertical-align: top; width: 30%;">Course:</td>
+            <td style="font-weight: bold; color: #546e7a; padding: 6px 0; vertical-align: top;">Course:</td>
             <td id="course-title" style="text-align: right; color: #666666; padding: 6px 0; vertical-align: top;">Loading...</td>
           </tr>
           <tr>
@@ -332,6 +459,8 @@
               <label>Contact Name</label>
               <input type="text" id="emergencyName" name="emergencyName" required value="">
             </div>
+            <div class="input-group col">
+             <label>Contact Phone Number</label>
              <input type="tel" 
                 id="emergencyPhone" 
                 name="emergencyPhone" 
@@ -340,6 +469,7 @@
                 title="Please enter a valid phone number."
                 required
                 value="">
+            </div>
           </div>
 
           <!-- Medical Information Section -->
