@@ -1,1 +1,1 @@
-# -CourseSchedulerFrontEnd
+# CourseSchedulerFrontEnd
