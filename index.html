@@ -633,7 +633,7 @@
         // IMMEDIATE EXECUTION: Check the URL before the page renders to show the correct spinner.
         (function() {
         const urlParams = new URLSearchParams(window.location.search);
-        const action = params.get('action');
+        const action = urlParams.get('action');
 
         if( action && action === "awaitPayment" ) {
           // If Square sent them back, swap the spinners INSTANTLY
