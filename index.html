@@ -374,6 +374,7 @@
           <input type="hidden" id="courseId" name="courseId" value="">
           <input type="hidden" id="sig" name="sig" value="">
           <input type="hidden" id="csrfToken" name="csrfToken" value="">
+          <input type="hidden" id="year" name="year" value="">
           
           <input type="text" name="website_url" id="honeypot" style="display:none;" tabindex="-1" autocomplete="off">
 
@@ -803,6 +804,7 @@
 
         document.getElementById('courseId').value = data.params.id;
         document.getElementById('sig').value = data.params.sig;
+        document.getElementById('year').value = data.params.year;
         document.getElementById('csrfToken').value = data.csrfToken;
 
         // Display the form
