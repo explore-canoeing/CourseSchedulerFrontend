@@ -509,25 +509,31 @@
             Provide a brief description of your experience and/or certifications.
           </p>
 
-          <div class="input-group">
-            <label>Canoeing</label>
-            <textarea name="experienceCanoe" rows="3"></textarea>
-          </div>
+          <span style="display: none;" id="canoeing-div">
+            <div class="input-group">
+                <label>Canoeing</label>
+                <textarea name="experienceCanoe" rows="3"></textarea>
+            </div>
+          </span>
 
-          <div class="input-group">
-            <label>Swimming</label>
-            <textarea name="experienceSwim" rows="3"></textarea>
-          </div>
+          <span style="display: none;" id="swimming-div">
+            <div class="input-group">
+                <label>Swimming</label>
+                <textarea name="experienceSwim" rows="3"></textarea>
+            </div>
+          </span>
 
           <div class="input-group">
             <label>First Aid/CPR</label>
             <textarea name="experienceFirstAid" rows="3"></textarea>
           </div>
 
-          <div class="input-group">
-            <label>Other</label>
-            <textarea name="experienceOther" rows="3"></textarea>
-          </div>
+          <span style="display: none;" id="other-div">
+            <div class="input-group">
+                <label>Other</label>
+                <textarea name="experienceOther" rows="3"></textarea>
+            </div>
+          </span>
 
           <!-- Consent to be Photographed Section -->
           <div class="section-title">Consent to be Photographed</div>
@@ -791,6 +797,12 @@
         if( data.course.isCanoeTripping ) {
           document.getElementById('diet-div').style.display = 'block';
           document.getElementById('coffee-div').style.display = 'block';
+        }
+
+        if( !data.course.isWMACourse ) {
+          document.getElementById('canoeing-div').style.display = 'block';
+          document.getElementById('swimming-div').style.display = 'block';
+          document.getElementById('other-div').style.display = 'block';
         }
 
         document.getElementById('cancellationLink').innerText = data.course.cancellationPolicy;
